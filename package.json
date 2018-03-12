@@ -1,0 +1,8 @@
+{
+  "name": "giphy-search",
+  "version": "1.0.0",
+  "description": "search for GIFs",
+  "main": "null",
+  "author": "Zach Harris <z@zharr.is>",
+  "license": "MIT"
+}
