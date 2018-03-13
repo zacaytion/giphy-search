@@ -1,15 +1,14 @@
-# Giphy Search Powered by ReactJS and Typescript 
+# Giphy Search Powered by ReactJS and Typescript
 
+## TODO
 
-#### TODO: 
-
-- ~~Set Up `webpack`~~ 
+- ~~Set Up `webpack`~~
 - ~~Configure `typescript`~~
 - Set up `jest` for testing
-- Connect `redux` 
+- Connect `redux`
 - Connect to Giphy API endpoints
-  - Search: `api.giphy.com/v1/gifs/search`
-  - Trending: `api.giphy.com/v1/gifs/trending`
+  + Search: `api.giphy.com/v1/gifs/search`
+  + Trending: `api.giphy.com/v1/gifs/trending`
 - Create main view
 - Fetch trending gifs on initial load.
 - Create search bar component
@@ -19,24 +18,21 @@
 - Style UI
 - Document Code
 - Write README
-- Write Tests 
+- Write Tests
 
-#### BONUS TODO:
+### BONUS TODO
 
 - Use `RxJS` and `redux-observables`
-- Use `docker` for development 
+- Use `docker` for development
 - Advance `webpack` features
-  - ~~Hot Module Reloading~~
-  - Tree Shaking 
-  - Caching 
-- Server Side rendering 
+  + ~~Hot Module Reloading~~
+  + Tree Shaking
+  + Caching
+- Server Side rendering
 - Configure `nginx` proxy
 - Deploy
 
-
-#### Helpful Links
+## Helpful Links
 
 [Project Requirements](https://s3.amazonaws.com/fieldlens-public/react-interview.html)
-
 [GIPHY API Docs](https://developers.giphy.com/docs)
-
