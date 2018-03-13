@@ -1,10 +1,10 @@
 # Giphy Search Powered by ReactJS and Typescript 
 
 
-## TODO: 
+#### TODO: 
 
-- Set Up `webpack` 
-- Configure `typescript` 
+- ~~Set Up `webpack`~~ 
+- ~~Configure `typescript`~~
 - Set up `jest` for testing
 - Connect `redux` 
 - Connect to Giphy API endpoints
@@ -21,24 +21,22 @@
 - Write README
 - Write Tests 
 
-## BONUS TODO:
+#### BONUS TODO:
 
 - Use `RxJS` and `redux-observables`
 - Use `docker` for development 
 - Advance `webpack` features
-  - Hot Module Reloading
+  - ~~Hot Module Reloading~~
   - Tree Shaking 
-  - Code Splitting
-  - Lazy Loading
   - Caching 
 - Server Side rendering 
 - Configure `nginx` proxy
 - Deploy
 
 
-## Helpful Links
+#### Helpful Links
 
-[Project
-Requirements](https://s3.amazonaws.com/fieldlens-public/react-interview.html)
+[Project Requirements](https://s3.amazonaws.com/fieldlens-public/react-interview.html)
+
 [GIPHY API Docs](https://developers.giphy.com/docs)
 
