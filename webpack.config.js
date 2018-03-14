@@ -14,7 +14,6 @@ module.exports =  {
     port: 3000,
     compress: true,
     overlay: true,
-    open: true
   },
   output: {
     path: path.resolve(__dirname, "dist"),
