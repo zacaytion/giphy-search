@@ -1,16 +1,51 @@
 import * as React from 'react';
-import { Provider } from 'react-redux';
+import { hot } from 'react-hot-loader';
+import { connect, Provider } from 'react-redux';
+import { Route, Switch, withRouter } from 'react-router';
 import { ConnectedRouter } from 'react-router-redux';
-import App from '../../containers/App';
+import { Store } from 'redux';
+import { About, Home, NotFound } from './components';
 
-interface IRootProps {
-  store: any;
-  history: any;
+import { IAppState } from './state/reducer';
+
+interface IProps {
+  store: Store<IAppState>;
+  history: any; /* TODO: Look up history types */
 }
-export const Root: React.SFC<IRootProps> = ({store, history}) => (
-  <Provider store={store}>
-  <ConnectedRouter history={history}>
-    <App />
-  </ConnectedRouter>
-  </Provider>
-);
+interface IState {
+  error: Error | null;
+}
+
+class RootComponent extends React.Component<IProps, IState> {
+  public state = {
+    error: null,
+  };
+
+  public componentDidCatch(error: Error) {
+    this.setState({ error });
+  }
+
+  public render() {
+    const { store, history } = this.props;
+    const { error } = this.state;
+
+    if (error) {
+      return (<div><p>{error}</p></div>);
+    }
+
+    return (
+      <Provider store={store} key={Math.random()}>
+        <ConnectedRouter history={history} key={Math.random()}>
+          <Switch>
+            <Route exact path='/' component={Home} />
+            <Route path='/about' component={About} />
+            <Route component={NotFound} />
+          </Switch>
+        </ConnectedRouter>
+      </Provider>
+    );
+  }
+}
+const Root = connect<{}, {}>(null, {})(RootComponent);
+
+export default hot(module)(Root);
