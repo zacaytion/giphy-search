@@ -8,7 +8,7 @@ const tslintrc = require(path.resolve(__dirname, './tslint.json'));
 module.exports =  {
   context: path.resolve(__dirname, "./src"),
   entry: path.resolve(__dirname, "./src/index.tsx"),
-  devtool: "cheap-source-maps",
+  devtool: "cheap-module-eval-source-map",
   devServer: {
     hot: true,
     port: 3000,
