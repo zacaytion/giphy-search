@@ -3,10 +3,11 @@ import { ConnectedRouter, routerMiddleware, routerReducer } from 'react-router-r
 import { applyMiddleware, combineReducers, compose, createStore, Store } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createLogger } from 'redux-logger';
-import { createEpicMiddleware } from 'redux-observable';
+import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable';
 import config from '../config';
-import { pingEpic, pingReducer } from './epics';
-import { initialState } from './init';
+import { ActionTypes } from './actionTypes';
+import { pingEpic } from './epics';
+import { initialState } from './initial';
 import { IAppState, rootReducer } from './reducer';
 
 export const history = createHistory();
@@ -15,7 +16,9 @@ const logger = createLogger({
   collapsed: true,
 });
 
-const epicMiddleware = createEpicMiddleware(pingEpic);
+// FIXME: TS complains if I don't typecast here
+const epicMiddleware =
+  createEpicMiddleware(pingEpic as Epic<ActionTypes, IAppState>);
 
 let middleware;
 
@@ -28,5 +31,6 @@ if (config.isDev) {
       epicMiddleware, logger, routerMiddleware(history as any),
     );
   }
+
 export const store: Store<IAppState> =
-  createStore<IAppState>(rootReducer, initialState as any, middleware);
+  createStore<IAppState>(rootReducer, initialState, middleware);

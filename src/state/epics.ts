@@ -1,22 +1,8 @@
-const PING = 'PING';
-const PONG = 'PONG';
+import { ActionsObservable, Epic } from 'redux-observable';
+import { ActionTypes, PingAction, PongAction } from './actionTypes';
+import TypeKeys from './typeKeys';
 
-const ping = () => ({ type: PING });
-
-export const pingEpic = (action$: any) =>
-  action$.ofType(PING)
+export const pingEpic = (action$: ActionsObservable<ActionTypes>) =>
+  action$.ofType<PingAction>(TypeKeys.PING)
     .delay(1000) // Asynchronously wait 1000ms then continue
-    .mapTo({ type: 'PONG' });
-
-export const pingReducer = (state = { isPinging: false }, action: any) => {
-  switch (action.type) {
-    case 'PING':
-      return { isPinging: true };
-
-    case 'PONG':
-      return { isPinging: false };
-
-    default:
-      return state;
-  }
-};
+    .mapTo({ type: TypeKeys.PONG });
