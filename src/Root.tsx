@@ -1,3 +1,4 @@
+import { History } from 'history';
 import * as React from 'react';
 import { hot } from 'react-hot-loader';
 import { connect, Provider } from 'react-redux';
@@ -5,12 +6,12 @@ import { Route, Switch, withRouter } from 'react-router';
 import { ConnectedRouter } from 'react-router-redux';
 import { Store } from 'redux';
 import { About, Home, NotFound } from './components';
-
+import Ping from './containers/Ping';
 import { IAppState } from './state/reducer';
 
 interface IProps {
   store: Store<IAppState>;
-  history: any; /* TODO: Look up history types */
+  history: History;
 }
 interface IState {
   error: Error | null;
@@ -39,6 +40,7 @@ class RootComponent extends React.Component<IProps, IState> {
           <Switch>
             <Route exact path='/' component={Home} />
             <Route path='/about' component={About} />
+            <Route path='/ping' component={Ping} />
             <Route component={NotFound} />
           </Switch>
         </ConnectedRouter>
