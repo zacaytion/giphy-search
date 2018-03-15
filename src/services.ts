@@ -36,7 +36,7 @@ interface IGIPHYResponse {
   meta: IMetaObject;
 }
 
-interface IGIFObject {
+export interface IGIFObject {
   type: string;
   id: string;
   slug: string;
