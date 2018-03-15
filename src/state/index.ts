@@ -7,8 +7,8 @@ import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable';
 import config from '../config';
 import { ActionTypes } from './actionTypes';
 import { pingEpic } from './epics';
-import { initialState } from './initial';
-import { IAppState, rootReducer } from './reducer';
+import { IAppState, initialState } from './initial';
+import { rootReducer } from './reducer';
 
 export const history = createHistory();
 
@@ -24,11 +24,11 @@ let middleware;
 
 if (config.isDev) {
     middleware = composeWithDevTools(
-      applyMiddleware(epicMiddleware, logger, routerMiddleware(history as any)),
+      applyMiddleware(epicMiddleware, logger, routerMiddleware(history)),
     );
   } else {
     middleware = applyMiddleware(
-      epicMiddleware, logger, routerMiddleware(history as any),
+      epicMiddleware, logger, routerMiddleware(history),
     );
   }
 

@@ -7,7 +7,7 @@ import { ConnectedRouter } from 'react-router-redux';
 import { Store } from 'redux';
 import { About, Home, NotFound } from './components';
 import Ping from './containers/Ping';
-import { IAppState } from './state/reducer';
+import { IAppState } from './state/initial';
 
 interface IProps {
   store: Store<IAppState>;

@@ -1,24 +1,8 @@
 import { routerReducer as routing, RouterState } from 'react-router-redux';
 import { combineReducers } from 'redux';
 import { ActionTypes } from './actionTypes';
+import { IAppState, INITIAL_PING_STATE, IPingState } from './initial';
 import TypeKeys from './typeKeys';
-
-interface IPingState {
-  isPinging: boolean;
-}
-
-export interface IAppState {
-  routing: RouterState;
-  ping: IPingState;
-}
-
-export const INITIAL_PING_STATE: IPingState = {
-  isPinging: false,
-};
-
-export const INITIAL_ROUTER_STATE: RouterState = {
-  location: null,
-};
 
 export const ping = (state: IPingState = INITIAL_PING_STATE, action: ActionTypes) => {
   switch (action.type) {

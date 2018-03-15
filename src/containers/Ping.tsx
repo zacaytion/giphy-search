@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect, Dispatch } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { ping, TPing } from '../state/actionCreators';
-import { IAppState } from '../state/reducer';
+import { IAppState } from '../state/initial';
 
 interface IStateProps {
   isPinging: boolean;
