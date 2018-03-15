@@ -5,13 +5,11 @@ export const GIFItem: React.SFC<IGIFObject> = gif => {
   const { images, rating, source, caption } = gif;
 
   return (
-    <div>
+    <li>
       <img src={images.downsized.url} alt={caption}/>
-      <ul>
-        <li>{caption}</li>
-        <li>Rating: {rating}</li>
-        <li>Source: {source}</li>
-      </ul>
-    </div>
+      <p>{caption}</p>
+      <p>Rating: {rating}</p>
+      <p>Source: {source}</p>
+    </li>
   );
 };
