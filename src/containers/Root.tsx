@@ -6,7 +6,6 @@ import { Route, Switch, withRouter } from 'react-router';
 import { ConnectedRouter } from 'react-router-redux';
 import { Store } from 'redux';
 import { About, Home, NotFound } from './components';
-import Ping from './containers/Ping';
 import { IAppState } from './state/initial';
 
 interface IProps {
@@ -40,7 +39,6 @@ class RootComponent extends React.Component<IProps, IState> {
           <Switch>
             <Route exact path='/' component={Home} />
             <Route path='/about' component={About} />
-            <Route path='/ping' component={Ping} />
             <Route component={NotFound} />
           </Switch>
         </ConnectedRouter>
