@@ -3,27 +3,31 @@ import config from './config';
 
 axios.defaults.baseURL = config.giphyBaseUrl;
 
-export async function searchForGIFs(q: string, offset: number = 0)  {
+export async function searchForGIFs(payload: {q: string, offset: number }) {
   try {
+    const { q, offset } = payload;
     const params = {
         api_key: config.giphyAPIKey,
         offset,
         q,
     };
-    return axios.get<IGIPHYResponse>('/gifs/search', { params });
+    const response = await axios.get<IGIPHYResponse>('/gifs/search', { params });
+    return response.data;
   } catch (e) {
     console.error(e); /* tslint:disable-line:no-console */
     throw Error('Error Searching GIPHY');
   }
 }
 
-export async function fetchTrendingGIFs(offset: number = 0) {
+export async function fetchTrendingGIFs(payload: { offset: number }) {
   try {
+    const { offset } = payload;
     const params = {
       api_key: config.giphyAPIKey,
       offset,
     };
-    return axios.get<IGIPHYResponse>('/gifs/trending', { params });
+    const response = await axios.get<IGIPHYResponse>('/gifs/trending', { params });
+    return response.data;
   } catch (e) {
     console.error(e); /* tslint:disable-line:no-console */
     throw Error('Error fetching Trending GIFs from GIPHY');
