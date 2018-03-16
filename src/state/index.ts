@@ -6,7 +6,7 @@ import { createLogger } from 'redux-logger';
 import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable';
 import config from '../config';
 import { ActionTypes } from './actionTypes';
-import { pingEpic } from './epics';
+import { rootEpic } from './epics';
 import { IAppState, initialState } from './initial';
 import { rootReducer } from './reducer';
 
@@ -16,9 +16,7 @@ const logger = createLogger({
   collapsed: true,
 });
 
-// FIXME: TS complains if I don't typecast here
-const epicMiddleware =
-  createEpicMiddleware(pingEpic as Epic<ActionTypes, IAppState>);
+const epicMiddleware = createEpicMiddleware(rootEpic);
 
 let middleware;
 

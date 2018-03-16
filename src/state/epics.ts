@@ -1,8 +1,42 @@
-import { ActionsObservable, Epic } from 'redux-observable';
-import { ActionTypes, PingAction, PongAction } from './actionTypes';
+import { ActionsObservable, combineEpics, Epic } from 'redux-observable';
+import { Observable } from 'rxjs';
+import { fetchTrendingGIFs, searchForGIFs } from '../services';
+import {
+  ActionTypes,
+  GIFSearchAction,
+  GIFSetAction,
+  GIFTrendingAction,
+  PaginationSetAction,
+} from './actionTypes';
 import TypeKeys from './typeKeys';
 
-export const pingEpic = (action$: ActionsObservable<ActionTypes>) =>
-  action$.ofType<PingAction>(TypeKeys.PING)
-    .delay(1000) // Asynchronously wait 1000ms then continue
-    .mapTo({ type: TypeKeys.PONG });
+const searchGIFsEpic = (action$: ActionsObservable<ActionTypes>) =>
+  action$.ofType<GIFSearchAction>(TypeKeys.GIFS_SEARCH)
+    .mergeMap(action =>
+      // TODO: Set inProgress to True
+      Observable.fromPromise(searchForGIFs(action.payload))
+        .map(data => ,
+          /** TODO:
+           * Set Search GIFS
+           * Set inProgress to False
+           * Set Pagination
+           * Handle Cancellation of Request
+           */
+        ),
+    );
+
+const trendingGIFsEpic = (action$: ActionsObservable<ActionTypes>) =>
+    action$.ofType<GIFTrendingAction>(TypeKeys.GIFS_TRENDING)
+      .mergeMap(action =>
+        // TODO: Set inProgress to True
+        Observable.fromPromise(fetchTrendingGIFs(action.payload))
+          .map(data => ,
+            /** TODO:
+             * Set Search GIFS
+             * Set inProgress to False
+             * Set Pagination
+             */
+          ),
+      );
+
+export const rootEpic = combineEpics(searchGIFsEpic, trendingGIFsEpic);
