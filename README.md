@@ -4,15 +4,14 @@
 
 - ~~Set Up `webpack`~~
 - ~~Configure `typescript`~~
-- Set up `jest` for testing
-- Connect `redux`
-- Connect to Giphy API endpoints
-  + Search: `api.giphy.com/v1/gifs/search`
-  + Trending: `api.giphy.com/v1/gifs/trending`
+- ~~Connect `redux`~~
+- ~~Connect to Giphy API endpoints~~
+  + ~~Search: `api.giphy.com/v1/gifs/search`~~
+  + ~~Trending: `api.giphy.com/v1/gifs/trending`~~
 - Create main view
 - Fetch trending gifs on initial load.
-- Create search bar component
-- Create search results component
+- ~~Create search bar component~~
+- ~~Create search results component~~
 - Save Previous Searches in Browser
 - Create Theme with `emotion`
 - Style UI
@@ -22,14 +21,13 @@
 
 ### BONUS TODO
 
-- Use `RxJS` and `redux-observables`
+- ~~Use `RxJS` and `redux-observables`~~
+- Set up `jest` for testing
 - Use `docker` for development
 - Advance `webpack` features
   + ~~Hot Module Reloading~~
   + Tree Shaking
   + Caching
-- Server Side rendering
-- Configure `nginx` proxy
 - Deploy
 
 ## Helpful Links
