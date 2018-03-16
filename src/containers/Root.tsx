@@ -5,8 +5,8 @@ import { connect, Provider } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router';
 import { ConnectedRouter } from 'react-router-redux';
 import { Store } from 'redux';
-import { About, Home, NotFound } from './components';
-import { IAppState } from './state/initial';
+import { About, Home, NotFound } from '../components';
+import { IAppState } from '../state/initial';
 
 interface IProps {
   store: Store<IAppState>;
