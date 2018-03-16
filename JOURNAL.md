@@ -50,3 +50,8 @@ Typically I'd start out building the key features first.
 However completed a technical challenge a couple of weeks ago where I was asked to build a similar app with React, but for searching for SubReddits.
 
 I like learning new things, so I decided to make this challenge more challenging by building it in TypeScript and using Observables.
+
+## Thursday March 15
+
+I'm too tired to write this now. Gonna update it tomorrow.
+<!-- TODO: Write Journal Entry for Thursday -->
