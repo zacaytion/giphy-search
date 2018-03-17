@@ -5,7 +5,8 @@ import { connect, Provider } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router';
 import { ConnectedRouter } from 'react-router-redux';
 import { Store } from 'redux';
-import { About, Home, NotFound } from '../components';
+import { About, NotFound } from '../components';
+import { Home } from '../containers/Home';
 import { IAppState } from '../state/initial';
 
 interface IProps {
