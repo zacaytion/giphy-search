@@ -8,10 +8,32 @@ import {
   INITIAL_FETCHING_STATE,
   INITIAL_GIFS_STATE,
   INITIAL_PAGINATION_STATE,
+  INITIAL_SEARCHING_STATE,
   IPaginationState,
+  ISearchState,
 } from './initial';
 import TypeKeys from './typeKeys';
 
+// TODO: Create SEARCH_REMOVE action to clear current term and add to previous
+const searching = (state: ISearchState = INITIAL_SEARCHING_STATE, action: ActionTypes ) => {
+  switch (action.type) {
+    case TypeKeys.SEARCH_ADD:
+      return {
+        previous: [
+          action.payload.searchTerm,
+          ...state.previous,
+        ],
+      };
+    case TypeKeys.SEARCH_CLEAR:
+      return {
+        previous: [],
+      };
+    default:
+      return state;
+  }
+};
+
+// TODO: Maybe Remove?
 const fetching =
   (state: IFetchingState = INITIAL_FETCHING_STATE, action: ActionTypes) => {
   switch (action.type) {
@@ -80,4 +102,5 @@ export const rootReducer = combineReducers<IAppState>({
   gifs: gifsReducer,
   pagination,
   routing,
+  searching,
 });
