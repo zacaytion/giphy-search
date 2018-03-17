@@ -3,7 +3,10 @@ import * as types from './actionTypes';
 import TypeKeys from './typeKeys';
 
 export type TSearchGIFs = typeof searchGIFs;
-export const searchGIFs = (term: string, offset: number = 0): types.GIFSearchAction => {
+export const searchGIFs = (
+  term: string,
+  offset: number = 0,
+): types.GIFSearchAction => {
   const q = term.replace(/\s/g, '+'); /* replace spaces with `+` */
   return {
     payload: {
@@ -23,7 +26,10 @@ export const trendingGIFs = (offset: number = 0): types.GIFTrendingAction => ({
 });
 
 export type TSetGIFs = typeof setGIFs;
-export const setGIFs = (gifs: IGIFObject[], gifType: types.GIFTypes): types.GIFSetAction => ({
+export const setGIFs = (
+  gifs: IGIFObject[],
+  gifType: types.GIFTypes,
+): types.GIFSetAction => ({
   payload: {
     gifType,
     gifs,
@@ -45,7 +51,9 @@ export const fetching = (): types.FetchingAction => ({
 });
 
 export type TSetPagination = typeof setPagination;
-export const setPagination = (requestType: types.GIFTypes): types.PaginationSetAction => ({
+export const setPagination = (
+  requestType: types.GIFTypes,
+): types.PaginationSetAction => ({
   payload: {
     requestType,
   },
@@ -53,7 +61,9 @@ export const setPagination = (requestType: types.GIFTypes): types.PaginationSetA
 });
 
 export type TClearPagination = typeof clearPagination;
-export const clearPagination = (requestType: types.GIFTypes): types.PaginationClearAction => ({
+export const clearPagination = (
+  requestType: types.GIFTypes,
+): types.PaginationClearAction => ({
   payload: {
     requestType,
   },

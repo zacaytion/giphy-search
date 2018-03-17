@@ -5,17 +5,13 @@ import { IAppState, IGIFSState, IPaginationState } from './initial';
 import TypeKeys from './typeKeys';
 
 const gifsStateSelector = (state: IAppState): IGIFSState => state.gifs;
-export const gifsSelector = (type: GIFTypes ) => {
-  return createSelector(
-    gifsStateSelector, gifsState => gifsState[type],
-  );
+export const gifsSelector = (type: GIFTypes) => {
+  return createSelector(gifsStateSelector, gifsState => gifsState[type]);
 };
 
 const paginationStateSelector = (state: IAppState) => state.pagination;
 export const paginationSelector = (type: GIFTypes) => {
-  return createSelector(
-    paginationStateSelector, pageState => pageState[type],
-  );
+  return createSelector(paginationStateSelector, pageState => pageState[type]);
 };
 
 const searchingStateSelector = (state: IAppState) => state.searching;

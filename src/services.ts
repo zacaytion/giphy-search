@@ -3,15 +3,17 @@ import config from './config';
 
 axios.defaults.baseURL = config.giphyBaseUrl;
 
-export async function searchForGIFs(payload: {q: string, offset: number }) {
+export async function searchForGIFs(payload: { q: string; offset: number }) {
   try {
     const { q, offset } = payload;
     const params = {
-        api_key: config.giphyAPIKey,
-        offset,
-        q,
+      api_key: config.giphyAPIKey,
+      offset,
+      q,
     };
-    const response = await axios.get<IGIPHYResponse>('/gifs/search', { params });
+    const response = await axios.get<IGIPHYResponse>('/gifs/search', {
+      params,
+    });
     return response.data;
   } catch (e) {
     console.error(e); /* tslint:disable-line:no-console */
@@ -26,7 +28,9 @@ export async function fetchTrendingGIFs(payload: { offset: number }) {
       api_key: config.giphyAPIKey,
       offset,
     };
-    const response = await axios.get<IGIPHYResponse>('/gifs/trending', { params });
+    const response = await axios.get<IGIPHYResponse>('/gifs/trending', {
+      params,
+    });
     return response.data;
   } catch (e) {
     console.error(e); /* tslint:disable-line:no-console */
@@ -63,109 +67,109 @@ export interface IGIFObject {
 
 interface IImagesObject {
   fixed_height: {
-    url: string,
-    width: string,
-    height: string,
-    size: string,
-    mp4: string,
-    mp4_size: string,
-    webp: string,
-    webp_size: string,
+    url: string;
+    width: string;
+    height: string;
+    size: string;
+    mp4: string;
+    mp4_size: string;
+    webp: string;
+    webp_size: string;
   };
   fixed_height_still: {
-    url: string,
-    width: string,
-    height: string,
+    url: string;
+    width: string;
+    height: string;
   };
   fixed_height_downsampled: {
-    url: string,
-    width: string,
-    height: string,
-    size: string,
-    webp: string,
-    webp_size: string,
+    url: string;
+    width: string;
+    height: string;
+    size: string;
+    webp: string;
+    webp_size: string;
   };
   fixed_width: {
-    url: string,
-    width: string,
-    height: string,
-    size: string,
-    mp4: string,
-    mp4_size: string,
-    webp: string,
-    webp_size: string,
+    url: string;
+    width: string;
+    height: string;
+    size: string;
+    mp4: string;
+    mp4_size: string;
+    webp: string;
+    webp_size: string;
   };
   fixed_width_still: {
-    url: string,
-    width: string,
-    height: string,
+    url: string;
+    width: string;
+    height: string;
   };
   fixed_width_downsampled: {
-    url: string,
-    width: string,
-    height: string,
-    size: string,
-    webp: string,
-    webp_size: string,
+    url: string;
+    width: string;
+    height: string;
+    size: string;
+    webp: string;
+    webp_size: string;
   };
   fixed_height_small: {
-    url: string,
-    width: string,
-    height: string,
-    size: string,
-    webp: string,
-    webp_size: string,
+    url: string;
+    width: string;
+    height: string;
+    size: string;
+    webp: string;
+    webp_size: string;
   };
   fixed_height_small_still: {
-    url: string,
-    width: string,
-    height: string,
+    url: string;
+    width: string;
+    height: string;
   };
   fixed_width_small: {
-    url: string,
-    width: string,
-    height: string,
-    size: string,
-    webp: string,
-    webp_size: string,
+    url: string;
+    width: string;
+    height: string;
+    size: string;
+    webp: string;
+    webp_size: string;
   };
   fixed_width_small_still: {
-    url: string,
-    width: string,
-    height: string,
+    url: string;
+    width: string;
+    height: string;
   };
   downsized: {
-    url: string,
-    width: string,
-    height: string,
-    size: string,
+    url: string;
+    width: string;
+    height: string;
+    size: string;
   };
   downsized_still: {
-    url: string,
-    width: string,
-    height: string,
+    url: string;
+    width: string;
+    height: string;
   };
   downsized_large: {
-    url: string,
-    width: string,
-    height: string,
-    size: string,
+    url: string;
+    width: string;
+    height: string;
+    size: string;
   };
   original: {
-    url: string,
-    width: string,
-    height: string,
-    size: string,
-    frames: string,
-    mp4: string,
-    mp4_size: string,
-    webp: string,
-    webp_size: string,
+    url: string;
+    width: string;
+    height: string;
+    size: string;
+    frames: string;
+    mp4: string;
+    mp4_size: string;
+    webp: string;
+    webp_size: string;
   };
   original_still: {
-    url: string,
-    width: string,
-    height: string,
+    url: string;
+    width: string;
+    height: string;
   };
 }
 

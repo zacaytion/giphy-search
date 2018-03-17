@@ -5,6 +5,6 @@ import Root from './containers/Root';
 import { history, store } from './state';
 
 ReactDOM.render(
-  <Root history={history} store={store}/>,
+  <Root history={history} store={store} />,
   document.getElementById('root') as HTMLElement,
 );

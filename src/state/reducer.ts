@@ -1,6 +1,12 @@
 import { routerReducer as routing, RouterState } from 'react-router-redux';
 import { combineReducers } from 'redux';
-import { ActionTypes, GIFSClearAction, GIFSetAction, PaginationClearAction, PaginationSetAction } from './actionTypes';
+import {
+  ActionTypes,
+  GIFSClearAction,
+  GIFSetAction,
+  PaginationClearAction,
+  PaginationSetAction,
+} from './actionTypes';
 import {
   IAppState,
   IFetchingState,
@@ -15,14 +21,14 @@ import {
 import TypeKeys from './typeKeys';
 
 // TODO: Create SEARCH_REMOVE action to clear current term and add to previous
-const searching = (state: ISearchState = INITIAL_SEARCHING_STATE, action: ActionTypes ) => {
+const searching = (
+  state: ISearchState = INITIAL_SEARCHING_STATE,
+  action: ActionTypes,
+) => {
   switch (action.type) {
     case TypeKeys.SEARCH_ADD:
       return {
-        previous: [
-          action.payload.searchTerm,
-          ...state.previous,
-        ],
+        previous: [action.payload.searchTerm, ...state.previous],
       };
     case TypeKeys.SEARCH_CLEAR:
       return {
@@ -34,8 +40,10 @@ const searching = (state: ISearchState = INITIAL_SEARCHING_STATE, action: Action
 };
 
 // TODO: Maybe Remove?
-const fetching =
-  (state: IFetchingState = INITIAL_FETCHING_STATE, action: ActionTypes) => {
+const fetching = (
+  state: IFetchingState = INITIAL_FETCHING_STATE,
+  action: ActionTypes,
+) => {
   switch (action.type) {
     case TypeKeys.FETCHING:
       return { isFetching: !state.isFetching, ...state };
@@ -44,7 +52,10 @@ const fetching =
   }
 };
 
-const gifsReducer = (state: IGIFSState = INITIAL_GIFS_STATE, action: ActionTypes) => {
+const gifsReducer = (
+  state: IGIFSState = INITIAL_GIFS_STATE,
+  action: ActionTypes,
+) => {
   switch (action.type) {
     case TypeKeys.GIFS_SET:
       return setGIFs(state, action);
@@ -70,7 +81,10 @@ function clearGIFs(state: IGIFSState, action: GIFSClearAction) {
     ...state,
   };
 }
-const pagination = (state: IPaginationState = INITIAL_PAGINATION_STATE, action: ActionTypes) => {
+const pagination = (
+  state: IPaginationState = INITIAL_PAGINATION_STATE,
+  action: ActionTypes,
+) => {
   switch (action.type) {
     case TypeKeys.PAGINATION_SET:
       return setPagination(state, action);
@@ -84,12 +98,15 @@ const pagination = (state: IPaginationState = INITIAL_PAGINATION_STATE, action: 
 function setPagination(state: IPaginationState, action: PaginationSetAction) {
   const { requestType } = action.payload;
   return {
-    [requestType]: state[requestType] += 25,
+    [requestType]: (state[requestType] += 25),
     ...state,
   };
 }
 
-function clearPagination(state: IPaginationState, action: PaginationClearAction) {
+function clearPagination(
+  state: IPaginationState,
+  action: PaginationClearAction,
+) {
   const { requestType } = action.payload;
   return {
     [requestType]: 0,

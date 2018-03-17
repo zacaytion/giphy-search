@@ -6,7 +6,7 @@ export const GIFItem: React.SFC<IGIFObject> = gif => {
 
   return (
     <li>
-      <img src={images.downsized.url} alt={caption}/>
+      <img src={images.downsized.url} alt={caption} />
       <p>{caption}</p>
       <p>Rating: {rating}</p>
       <p>Source: {source}</p>

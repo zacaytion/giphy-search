@@ -1,6 +1,16 @@
 import createHistory from 'history/createBrowserHistory';
-import { ConnectedRouter, routerMiddleware, routerReducer } from 'react-router-redux';
-import { applyMiddleware, combineReducers, compose, createStore, Store } from 'redux';
+import {
+  ConnectedRouter,
+  routerMiddleware,
+  routerReducer,
+} from 'react-router-redux';
+import {
+  applyMiddleware,
+  combineReducers,
+  compose,
+  createStore,
+  Store,
+} from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createLogger } from 'redux-logger';
 import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable';
@@ -21,14 +31,19 @@ const epicMiddleware = createEpicMiddleware(rootEpic);
 let middleware;
 
 if (config.isDev) {
-    middleware = composeWithDevTools(
-      applyMiddleware(epicMiddleware, logger, routerMiddleware(history)),
-    );
-  } else {
-    middleware = applyMiddleware(
-      epicMiddleware, logger, routerMiddleware(history),
-    );
-  }
+  middleware = composeWithDevTools(
+    applyMiddleware(epicMiddleware, logger, routerMiddleware(history)),
+  );
+} else {
+  middleware = applyMiddleware(
+    epicMiddleware,
+    logger,
+    routerMiddleware(history),
+  );
+}
 
-export const store: Store<IAppState> =
-  createStore<IAppState>(rootReducer, initialState, middleware);
+export const store: Store<IAppState> = createStore<IAppState>(
+  rootReducer,
+  initialState,
+  middleware,
+);

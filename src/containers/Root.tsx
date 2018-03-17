@@ -31,15 +31,19 @@ class RootComponent extends React.Component<IProps, IState> {
     const { error } = this.state;
 
     if (error) {
-      return (<div><p>{error}</p></div>);
+      return (
+        <div>
+          <p>{error}</p>
+        </div>
+      );
     }
 
     return (
       <Provider store={store} key={Math.random()}>
         <ConnectedRouter history={history} key={Math.random()}>
           <Switch>
-            <Route exact path='/' component={Home} />
-            <Route path='/about' component={About} />
+            <Route exact path="/" component={Home} />
+            <Route path="/about" component={About} />
             <Route component={NotFound} />
           </Switch>
         </ConnectedRouter>

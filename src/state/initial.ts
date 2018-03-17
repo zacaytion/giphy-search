@@ -2,7 +2,7 @@ import { RouterState } from 'react-router-redux';
 import { IGIFObject } from '../services';
 import TypeKeys from './typeKeys';
 
-export interface  IFetchingState {
+export interface IFetchingState {
   isFetching: boolean;
 }
 
