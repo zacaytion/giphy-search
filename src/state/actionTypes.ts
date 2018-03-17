@@ -56,6 +56,21 @@ export interface PaginationClearAction extends Action {
   };
 }
 
+export interface SearchAddAction extends Action {
+  type: TypeKeys.SEARCH_ADD;
+  payload: {
+    searchTerm: string;
+  };
+}
+
+export interface SearchClearAction extends Action {
+  type: TypeKeys.SEARCH_CLEAR;
+}
+
+export type SearchActions =
+  | SearchAddAction
+  | SearchClearAction;
+
 export interface OtherAction extends Action {
   type: TypeKeys.OTHER_ACTION;
   payload: any;
@@ -75,4 +90,5 @@ export type ActionTypes =
   | FetchingAction
   | GIFActions
   | PaginationActions
+  | SearchActions
   | OtherAction;

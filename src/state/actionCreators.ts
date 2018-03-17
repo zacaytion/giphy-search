@@ -59,3 +59,18 @@ export const clearPagination = (requestType: types.GIFTypes): types.PaginationCl
   },
   type: TypeKeys.PAGINATION_CLEAR,
 });
+
+export type TAddSearchTerm = typeof addSearchTerm;
+export const addSearchTerm = (searchTerm: string): types.SearchAddAction => ({
+  payload: {
+    searchTerm,
+  },
+  type: TypeKeys.SEARCH_ADD,
+});
+
+// TODO: Make RemoveTerm Action
+
+export type TClearSearch = typeof clearSearch;
+export const clearSearch = (): types.SearchClearAction => ({
+  type: TypeKeys.SEARCH_CLEAR,
+});
