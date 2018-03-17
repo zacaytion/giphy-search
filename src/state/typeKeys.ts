@@ -7,6 +7,9 @@ enum TypeKeys {
   OTHER_ACTION = '__any_other_action_type__',
   PAGINATION_CLEAR = 'PAGINATION_CLEAR',
   PAGINATION_SET = 'PAGINATION_SET',
+  SEARCH_ADD = 'SEARCH_ADD',
+  SEARCH_CLEAR = 'SEARCH_CLEAR',
+  SEARCH_REMOVE = 'SEARCH_REMOVE',
 }
 
 export default TypeKeys;
