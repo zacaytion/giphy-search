@@ -2,6 +2,8 @@ import { IGIFObject } from '../services';
 import * as types from './actionTypes';
 import TypeKeys from './typeKeys';
 
+// FIXME: Exporting types doesn't work?
+
 export type TSearchGIFs = typeof searchGIFs;
 export const searchGIFs = (
   term: string,
@@ -78,7 +80,9 @@ export const addSearchTerm = (searchTerm: string): types.SearchAddAction => ({
   type: TypeKeys.SEARCH_ADD,
 });
 
-// TODO: Make RemoveTerm Action
+export const removeSearchTerm = (): types.SearchRemoveAction => ({
+  type: TypeKeys.SEARCH_REMOVE,
+});
 
 export type TClearSearch = typeof clearSearch;
 export const clearSearch = (): types.SearchClearAction => ({

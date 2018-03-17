@@ -20,7 +20,6 @@ import {
 } from './initial';
 import TypeKeys from './typeKeys';
 
-// TODO: Create SEARCH_REMOVE action to clear current term and add to previous
 const searching = (
   state: ISearchState = INITIAL_SEARCHING_STATE,
   action: ActionTypes,
@@ -28,11 +27,26 @@ const searching = (
   switch (action.type) {
     case TypeKeys.SEARCH_ADD:
       return {
-        previous: [action.payload.searchTerm, ...state.previous],
+        current: action.payload.searchTerm,
+        ...state,
+      };
+    case TypeKeys.SEARCH_REMOVE:
+      const { current, previous } = state;
+
+      if (!current) { return state; }
+      // remove current term if it was already searched
+      const newPrevious = previous.filter(i => i !== current);
+      return {
+        previous: [
+          current,
+          ...previous,
+        ],
+        ...state,
       };
     case TypeKeys.SEARCH_CLEAR:
       return {
         previous: [],
+        ...state,
       };
     default:
       return state;

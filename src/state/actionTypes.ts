@@ -61,11 +61,14 @@ export interface SearchAddAction extends Action {
   };
 }
 
+export interface SearchRemoveAction extends Action {
+  type: TypeKeys.SEARCH_REMOVE;
+}
 export interface SearchClearAction extends Action {
   type: TypeKeys.SEARCH_CLEAR;
 }
 
-export type SearchActions = SearchAddAction | SearchClearAction;
+export type SearchActions = SearchAddAction | SearchRemoveAction | SearchClearAction;
 
 export interface OtherAction extends Action {
   type: TypeKeys.OTHER_ACTION;
