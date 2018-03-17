@@ -1,6 +1,6 @@
+import 'normalize.css';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import 'rxjs';  /* TODO: only import as needed */
 import Root from './containers/Root';
 import { history, store } from './state';
 
