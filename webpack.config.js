@@ -1,19 +1,30 @@
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const tslintrc = require(path.resolve(__dirname, './tslint.json'));
 
 module.exports =  {
   context: path.resolve(__dirname, "./src"),
-  entry: path.resolve(__dirname, "./src/index.tsx"),
+  entry: ["babel-polyfill", path.resolve(__dirname, "./src/index.tsx")],
   devtool: "cheap-module-eval-source-map",
   devServer: {
     hot: true,
     port: 3000,
     compress: true,
     overlay: true,
+    proxy: {
+      "/giphy": {
+        target: "http://api.giphy.com/v1/gifs",
+        pathRewrite: {
+          '^/giphy': ''
+        },
+        "changeOrigin": true,
+      }
+    }
   },
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -38,14 +49,10 @@ module.exports =  {
       filename: 'styles/[name].[contenthash].css',
       disable: process.env.NODE_ENV !== 'production'
     }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        GIPHY_API_KEY: JSON.stringify(process.env.GIPHY_API_KEY)
-      },
-    }),
     new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    new FriendlyErrorsWebpackPlugin(),
+    new HardSourceWebpackPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
   ],
   module: {
     rules: [
