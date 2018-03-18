@@ -52,7 +52,7 @@ module.exports =  {
     new webpack.NamedModulesPlugin(),
     new FriendlyErrorsWebpackPlugin(),
     new HardSourceWebpackPlugin({
-      cacheDirectory: path.resolve(__dirname, "../node_modules/.cache/hard-source/[confighash]"),
+      cacheDirectory: path.resolve(__dirname, "./node_modules/.cache/hard-source/[confighash]"),
     }),
     new webpack.HotModuleReplacementPlugin(),
   ],
