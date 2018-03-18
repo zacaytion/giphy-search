@@ -26,7 +26,7 @@ export const currentSearchSelector = createSelector(
 
 const fetchingStateSelector = (state: IAppState) => state.fetching;
 // TODO: Refactor
-export const fetchingTrendingSelector = createSelector(
+export const isFetchingTrendingSelector = createSelector(
   fetchingStateSelector,
   fetchingState => fetchingState.trending,
 );

@@ -5,12 +5,19 @@ import matchSorter from 'match-sorter';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { GIFList } from '../components/GIF';
+import { GIFList } from '../components/GIF/List';
 import { SearchBar } from '../components/SearchBar';
 import { IGIFObject } from '../services';
 import * as actions from '../state/actionCreators';
 import { IAppState, initialState } from '../state/initial';
-import { currentSearchSelector, gifsSelector, paginationSelector, previousSearchesSelector } from '../state/selectors';
+import {
+  currentSearchSelector,
+  gifsSelector,
+  isFetchingSearchingSelector,
+  isFetchingTrendingSelector,
+  paginationSelector,
+  previousSearchesSelector,
+} from '../state/selectors';
 import TypeKeys from '../state/typeKeys';
 
 type TSearchGIFsAction = typeof actions.searchGIFs;
@@ -25,10 +32,12 @@ interface IAutoCompleteProps {
   previousSearches: string[];
   removeSearchTerm: TRemoveSearchTermAction;
   searchGIFs: IGIFObject[];
+  searchIsFetching: boolean;
   searchOffset: number;
   searchTerm: string;
   selectedSearchTerm: string;
   trendingGIFs: IGIFObject[];
+  trendingIsFetching: boolean;
   trendingOffset: number;
 
 }
@@ -44,17 +53,7 @@ class AutoCompleteContainer extends React.Component<IAutoCompleteProps> {
       addSearchTerm(selectedSearchTerm);
     }
   }
-  public renderList(searchGIFs: IGIFObject[], trendingGIFs: IGIFObject[], searchTerm: string | null) {
-    const noGIFsYet = searchGIFs.length === 0 && trendingGIFs.length === 0;
-    const noSearch = !searchTerm === false;
-    if (noGIFsYet && noSearch) {
-      return <li key="fetching-gifs"> Fetching fresh GIFs for you ⏳ </li>;
-    } else if (noGIFsYet && !noSearch) {
-      return <li key="no-results"> No Results Found 🙁 </li>;
-    } else {
-      return <GIFList searchResults={searchGIFs} trendingResults={trendingGIFs} />;
-    }
-  }
+
   public getItems = (value: string | null) => {
     const { previousSearches } = this.props;
     console.log('getItems', previousSearches, value);
@@ -69,8 +68,54 @@ class AutoCompleteContainer extends React.Component<IAutoCompleteProps> {
     console.log('handleState', changes.inputValue);
     // addSearchTerm(changes.inputValue);
   }
+
+  public scrollFunction = (): any => {
+    const {
+      searchIsFetching,
+      selectedSearchTerm,
+      searchGIFs,
+      trendingIsFetching,
+      trendingGIFs,
+      searchOffset,
+      trendingOffset,
+      fetchSearchGIFs,
+      fetchTrendingGIFs,
+    } = this.props;
+
+    const emptyTrendingGifs = trendingGIFs.length === 0;
+    const emptySearchGifs = searchGIFs.length === 0;
+
+    if (!selectedSearchTerm && !emptyTrendingGifs && !trendingIsFetching) {
+      return fetchTrendingGIFs(trendingOffset);
+    } else if (!!selectedSearchTerm && !emptySearchGifs && !searchIsFetching) {
+      return fetchSearchGIFs(searchOffset);
+    } else {
+      return () => ({}); // NOOP
+    }
+  }
+
+  public gifsToDisplay(): any {
+    const { selectedSearchTerm, searchGIFs, trendingGIFs } = this.props;
+    if (!selectedSearchTerm) {
+      return trendingGIFs;
+    } else {
+      return searchGIFs;
+    }
+  }
+
+  public isLoading(): boolean  {
+    const { selectedSearchTerm, searchGIFs, trendingGIFs, searchIsFetching,  trendingIsFetching } = this.props;
+    if (!selectedSearchTerm && trendingIsFetching ) {
+      return true;
+    } else if (searchIsFetching && !!selectedSearchTerm) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   public render() {
-    const { selectedSearchTerm, searchGIFs, trendingGIFs} = this.props;
+    const { searchIsFetching, selectedSearchTerm, searchGIFs, trendingIsFetching, trendingGIFs} = this.props;
 
     return (
       <div
@@ -89,9 +134,11 @@ class AutoCompleteContainer extends React.Component<IAutoCompleteProps> {
           onChange={this.handleChange}
           getItems={this.getItems}
         />
-        <ul>
-          {this.renderList(searchGIFs, trendingGIFs, selectedSearchTerm)}
-        </ul>
+         <GIFList
+          results={this.gifsToDisplay()}
+          scrollFunction={this.scrollFunction}
+          isLoading={this.isLoading()}
+         />
       </div>
     );
   }
@@ -105,10 +152,12 @@ const mapStateToProps = (state: IAppState) => {
   return {
     previousSearches: previousSearchesSelector(state),
     searchGIFs: searchGIFsSelector(state),
+    searchIsFetching: isFetchingSearchingSelector(state),
     searchOffset: searchPaginationSelector(state),
     searchTerm: currentSearchSelector(state),
     selectedSearchTerm: currentSearchSelector(state),
     trendingGIFs: trendingGIFsSelector(state),
+    trendingIsFetching: isFetchingTrendingSelector(state),
     trendingOffset: trendingPaginationSelector(state),
   };
 };

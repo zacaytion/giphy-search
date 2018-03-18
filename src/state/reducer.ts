@@ -10,6 +10,7 @@ import {
   IErrorState,
   IFetchingState,
   IGIFSState,
+  INITIAL_ERROR_STATE,
   INITIAL_FETCHING_STATE,
   INITIAL_GIFS_STATE,
   INITIAL_PAGINATION_STATE,
@@ -161,7 +162,7 @@ function clearPagination(
   };
 }
 
-const error = (state: IErrorState, action: ActionTypes) => {
+const error = (state: IErrorState = INITIAL_ERROR_STATE, action: ActionTypes) => {
   switch (action.type) {
     case TypeKeys.ERROR_SET:
       const { payload } = action;

@@ -1,24 +1,20 @@
 import * as React from 'react';
 import { IGIFObject } from '../../services';
+import { FetchingOnScroll } from '../FetchingOnScroll';
+import { IsLoading } from '../IsLoading';
 import { GIFItem } from './Item';
 
 interface IGIFListProps {
-  searchResults: IGIFObject[];
-  trendingResults: IGIFObject[];
+  results: IGIFObject[];
+
 }
 
-export const GIFList: React.SFC<IGIFListProps> = ({ searchResults, trendingResults }) =>  {
-
-  let results;
-  if (searchResults.length > 0) {
-    results = searchResults;
-  } else {
-    results = trendingResults;
-  }
-
-  return (
-    <> {/* shorthand for React.Fragment */}
+const List: React.SFC<IGIFListProps> = ({ results }) =>  {
+    return (
+    <div>
       {results.map(gif => (<GIFItem key={gif.id} {...gif} />))}
-    </>
+    </div>
   );
 };
+
+export const GIFList = IsLoading(FetchingOnScroll(List));
