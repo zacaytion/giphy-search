@@ -53,7 +53,6 @@ const searching = (
   }
 };
 
-// TODO: Maybe Remove?
 const fetching = (
   state: IFetchingState = INITIAL_FETCHING_STATE,
   action: ActionTypes,
@@ -82,10 +81,24 @@ const gifsReducer = (
 
 function setGIFs(state: IGIFSState, action: GIFSetAction) {
   const { gifType, gifs } = action.payload;
-  return {
-    [gifType]: [...state[gifType], ...gifs],
-    ...state,
-  };
+
+  /** Work around because object spread operator wasn't working with Enums as Object Keys
+   * This: { [gifType]: [...state[gifType], ...gifs], ...state, }
+   * Would return: { [GIFS_TRENDING]: [], [GIFS_SEARCH]: [] }
+   * Removing `...state` would correctly populate array
+   */
+  if (gifType === TypeKeys.GIFS_TRENDING) {
+    return {
+      [gifType]: [...state[gifType], ...gifs],
+      [TypeKeys.GIFS_SEARCH]: state[TypeKeys.GIFS_SEARCH],
+    };
+  } else {
+    return {
+      [gifType]: [...state[gifType], ...gifs],
+      [TypeKeys.GIFS_TRENDING]: state[TypeKeys.GIFS_TRENDING],
+    };
+  }
+
 }
 
 function clearGIFs(state: IGIFSState, action: GIFSClearAction) {
