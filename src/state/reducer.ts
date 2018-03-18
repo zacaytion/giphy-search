@@ -61,25 +61,27 @@ const fetching = (
     case TypeKeys.GIFS_SET:
       const { payload: { gifType } } = action;
       if (gifType === TypeKeys.GIFS_TRENDING) {
-          return {
+        console.log("we're done fetching"); // tslint:disable-line
+        return {
+            searching: state.searching,
             trending: false,
-            ...state,
           };
         } else {
           return {
             searching: false,
-            ...state,
+            trending: state.trending,
           };
         }
     case TypeKeys.GIFS_TRENDING:
+      console.log("we're fetching"); // tslint:disable-line
       return {
+        searching: state.searching,
         trending: true,
-        ...state,
       };
     case TypeKeys.GIFS_SEARCH:
       return {
       searching: true,
-      ...state,
+      trending: state.trending,
     };
     default:
       return state;
@@ -129,7 +131,7 @@ function clearGIFs(state: IGIFSState, action: GIFSClearAction) {
     ...state,
   };
 }
-const pagination = (
+const paginationReducer = (
   state: IPaginationState = INITIAL_PAGINATION_STATE,
   action: ActionTypes,
 ) => {
@@ -144,11 +146,18 @@ const pagination = (
 };
 
 function setPagination(state: IPaginationState, action: GIFSetAction) {
-  const { gifType } = action.payload;
-  return {
-    [gifType]: (state[gifType] += 25),
-    ...state,
-  };
+  const { gifType, pagination } = action.payload;
+  if (gifType === TypeKeys.GIFS_TRENDING) {
+    return {
+      [gifType]: pagination.offset + pagination.count,
+      [TypeKeys.GIFS_SEARCH]: state[TypeKeys.GIFS_SEARCH],
+    };
+  } else {
+    return {
+      [gifType]: pagination.offset + pagination.count,
+      [TypeKeys.GIFS_TRENDING]: state[TypeKeys.GIFS_TRENDING],
+    };
+  }
 }
 
 function clearPagination(
@@ -182,7 +191,7 @@ export const rootReducer = combineReducers<IAppState>({
   error,
   fetching,
   gifs: gifsReducer,
-  pagination,
+  pagination: paginationReducer,
   routing,
   searching,
 });
