@@ -1,9 +1,8 @@
-import { merge } from 'lodash';
 
 const config = {
   env: process.env.NODE_ENV || 'development',
-  giphyAPIKey: process.env.GIPHY_API_KEY,
-  giphyBaseUrl: 'http://api.giphy.com/v1/',
+  giphyAPIKey: 'iFHeQEBrsm3I08PUvhRjuShzBDVpJMZI',
+  giphyBaseUrl: 'http://localhost:3000/giphy',
   isBrowser: typeof window !== 'undefined',
   isDev: process.env.NODE_ENV !== 'production',
 };
