@@ -2,8 +2,6 @@ import { IGIFObject } from '../services';
 import * as types from './actionTypes';
 import TypeKeys from './typeKeys';
 
-// FIXME: Exporting types doesn't work?
-
 export type TSearchGIFs = typeof searchGIFs;
 export const searchGIFs = (
   term: string,
