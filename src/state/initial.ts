@@ -3,7 +3,8 @@ import { IGIFObject } from '../services';
 import TypeKeys from './typeKeys';
 
 export interface IFetchingState {
-  isFetching: boolean;
+  searching: boolean;
+  trending: boolean;
 }
 
 export interface ISearchState {
@@ -21,7 +22,12 @@ export interface IPaginationState {
   [TypeKeys.GIFS_TRENDING]: number;
 }
 
+export interface IErrorState {
+  errors: any[];
+}
+
 export interface IAppState {
+  error: IErrorState;
   fetching: IFetchingState;
   gifs: IGIFSState;
   pagination: IPaginationState;
@@ -30,12 +36,17 @@ export interface IAppState {
 }
 
 export const INITIAL_FETCHING_STATE: IFetchingState = {
-  isFetching: false,
+  searching: false,
+  trending: false,
+};
+
+export const INITIAL_ERROR_STATE: IErrorState = {
+  errors: [],
 };
 
 export const INITIAL_GIFS_STATE: IGIFSState = {
-  [TypeKeys.GIFS_SEARCH]: [] as IGIFObject[],
-  [TypeKeys.GIFS_TRENDING]: [] as IGIFObject[],
+  [TypeKeys.GIFS_SEARCH]: [],
+  [TypeKeys.GIFS_TRENDING]: [],
 };
 
 export const INITIAL_PAGINATION_STATE: IPaginationState = {
@@ -53,6 +64,7 @@ export const INITIAL_SEARCHING_STATE: ISearchState = {
 };
 
 export const initialState: IAppState = {
+  error: INITIAL_ERROR_STATE,
   fetching: INITIAL_FETCHING_STATE,
   gifs: INITIAL_GIFS_STATE,
   pagination: INITIAL_PAGINATION_STATE,

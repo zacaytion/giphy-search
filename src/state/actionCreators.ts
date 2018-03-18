@@ -47,31 +47,6 @@ export const clearGIFs: ActionCreator<types.GIFSClearAction> = (gifType: types.G
   type: TypeKeys.GIFS_CLEAR,
 });
 
-export type TFetching = typeof fetching;
-export const fetching: ActionCreator<types.FetchingAction> = () => ({
-  type: TypeKeys.FETCHING,
-});
-
-export type TSetPagination = typeof setPagination;
-export const setPagination: ActionCreator<types.PaginationSetAction> = (
-  requestType: types.GIFTypes,
-) => ({
-  payload: {
-    requestType,
-  },
-  type: TypeKeys.PAGINATION_SET,
-});
-
-export type TClearPagination = typeof clearPagination;
-export const clearPagination: ActionCreator<types.PaginationClearAction> = (
-  requestType: types.GIFTypes,
-) => ({
-  payload: {
-    requestType,
-  },
-  type: TypeKeys.PAGINATION_CLEAR,
-});
-
 export type TAddSearchTerm = typeof addSearchTerm;
 export const addSearchTerm: ActionCreator<types.SearchAddAction> = (searchTerm: string) => ({
   payload: {
@@ -88,4 +63,15 @@ export const removeSearchTerm: ActionCreator<types.SearchRemoveAction> = () => (
 export type TClearSearch = typeof clearSearch;
 export const clearSearch: ActionCreator<types.SearchClearAction> = () => ({
   type: TypeKeys.SEARCH_CLEAR,
+});
+
+export type TSetError = typeof setError;
+export const setError: ActionCreator<types.ErrorSetAction> = (err: any) => ({
+  payload: { err },
+  type: TypeKeys.ERROR_SET,
+});
+
+export type TClearErrors = typeof clearErrors;
+export const clearErrors: ActionCreator<types.ErrorClearAction> = () => ({
+  type: TypeKeys.ERROR_CLEAR,
 });

@@ -4,11 +4,10 @@ import {
   ActionTypes,
   GIFSClearAction,
   GIFSetAction,
-  PaginationClearAction,
-  PaginationSetAction,
 } from './actionTypes';
 import {
   IAppState,
+  IErrorState,
   IFetchingState,
   IGIFSState,
   INITIAL_FETCHING_STATE,
@@ -58,8 +57,29 @@ const fetching = (
   action: ActionTypes,
 ) => {
   switch (action.type) {
-    case TypeKeys.FETCHING:
-      return { isFetching: !state.isFetching, ...state };
+    case TypeKeys.GIFS_SET:
+      const { payload: { gifType } } = action;
+      if (gifType === TypeKeys.GIFS_TRENDING) {
+          return {
+            trending: false,
+            ...state,
+          };
+        } else {
+          return {
+            searching: false,
+            ...state,
+          };
+        }
+    case TypeKeys.GIFS_TRENDING:
+      return {
+        trending: true,
+        ...state,
+      };
+    case TypeKeys.GIFS_SEARCH:
+      return {
+      searching: true,
+      ...state,
+    };
     default:
       return state;
   }
@@ -113,35 +133,52 @@ const pagination = (
   action: ActionTypes,
 ) => {
   switch (action.type) {
-    case TypeKeys.PAGINATION_SET:
+    case TypeKeys.GIFS_SET:
       return setPagination(state, action);
-    case TypeKeys.PAGINATION_CLEAR:
+    case TypeKeys.GIFS_CLEAR:
       return clearPagination(state, action);
     default:
       return state;
   }
 };
 
-function setPagination(state: IPaginationState, action: PaginationSetAction) {
-  const { requestType } = action.payload;
+function setPagination(state: IPaginationState, action: GIFSetAction) {
+  const { gifType } = action.payload;
   return {
-    [requestType]: (state[requestType] += 25),
+    [gifType]: (state[gifType] += 25),
     ...state,
   };
 }
 
 function clearPagination(
   state: IPaginationState,
-  action: PaginationClearAction,
+  action: GIFSClearAction,
 ) {
-  const { requestType } = action.payload;
+  const { gifType } = action.payload;
   return {
-    [requestType]: 0,
+    [gifType]: 0,
     ...state,
   };
 }
 
+const error = (state: IErrorState, action: ActionTypes) => {
+  switch (action.type) {
+    case TypeKeys.ERROR_SET:
+      const { payload } = action;
+      return {
+        errors: [payload.err, ...state.errors],
+      };
+    case TypeKeys.ERROR_CLEAR:
+      return {
+        errors: [],
+      };
+    default:
+      return state;
+  }
+};
+
 export const rootReducer = combineReducers<IAppState>({
+  error,
   fetching,
   gifs: gifsReducer,
   pagination,

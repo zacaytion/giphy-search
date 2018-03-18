@@ -24,9 +24,20 @@ export const currentSearchSelector = createSelector(
   searching => searching.current,
 );
 
-// TODO: Is Necessary?
 const fetchingStateSelector = (state: IAppState) => state.fetching;
-export const isFetchingSelector = createSelector(
+// TODO: Refactor
+export const fetchingTrendingSelector = createSelector(
   fetchingStateSelector,
-  fetchingState => fetchingState.isFetching,
+  fetchingState => fetchingState.trending,
+);
+// TODO: Refactor
+export const isFetchingSearchingSelector = createSelector(
+  fetchingStateSelector,
+  fetchingState => fetchingState.searching,
+);
+
+const errorStateSelector = (state: IAppState) => state.error;
+export const errorsSelector = createSelector(
+  errorStateSelector,
+  errorState => errorState.errors,
 );

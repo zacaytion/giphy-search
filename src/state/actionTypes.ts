@@ -36,24 +36,6 @@ export interface GIFSClearAction extends Action {
 
 export type GIFTypes = TypeKeys.GIFS_SEARCH | TypeKeys.GIFS_TRENDING;
 
-export interface FetchingAction extends Action {
-  type: TypeKeys.FETCHING;
-}
-
-export interface PaginationSetAction extends Action {
-  type: TypeKeys.PAGINATION_SET;
-  payload: {
-    requestType: GIFTypes;
-  };
-}
-
-export interface PaginationClearAction extends Action {
-  type: TypeKeys.PAGINATION_CLEAR;
-  payload: {
-    requestType: GIFTypes;
-  };
-}
-
 export interface SearchAddAction extends Action {
   type: TypeKeys.SEARCH_ADD;
   payload: {
@@ -66,6 +48,17 @@ export interface SearchRemoveAction extends Action {
 }
 export interface SearchClearAction extends Action {
   type: TypeKeys.SEARCH_CLEAR;
+}
+
+export interface ErrorSetAction extends Action {
+  type: TypeKeys.ERROR_SET;
+  payload: {
+    err: any;
+  };
+}
+
+export interface ErrorClearAction extends Action {
+  type: TypeKeys.ERROR_CLEAR;
 }
 
 export type SearchActions = SearchAddAction | SearchRemoveAction | SearchClearAction;
@@ -81,11 +74,10 @@ export type GIFActions =
   | GIFSetAction
   | GIFTrendingAction;
 
-export type PaginationActions = PaginationClearAction | PaginationSetAction;
+export type ErrorActions = ErrorSetAction | ErrorClearAction;
 
 export type ActionTypes =
-  | FetchingAction
   | GIFActions
-  | PaginationActions
+  | ErrorActions
   | SearchActions
   | OtherAction;

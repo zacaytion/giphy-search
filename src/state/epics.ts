@@ -3,9 +3,8 @@ import { Observable } from 'rxjs';
 import { fetchTrendingGIFs, searchForGIFs } from '../services';
 import {
   addSearchTerm,
-  fetching,
+  setError,
   setGIFs,
-  setPagination,
 } from './actionCreators';
 import {
   ActionTypes,
@@ -13,13 +12,11 @@ import {
   GIFSearchAction,
   GIFSetAction,
   GIFTrendingAction,
-  PaginationSetAction,
 } from './actionTypes';
 import TypeKeys from './typeKeys';
 
-/** TODO:
- * Handle Cancellation of Request
- */
+// TODO: Handle Cancellation of Request
+// TODO: Handle Request Errors
 
 const searchGIFsEpic = (action$: ActionsObservable<ActionTypes>) =>
   action$.ofType<GIFSearchAction>(TypeKeys.GIFS_SEARCH).mergeMap(action =>
@@ -27,7 +24,6 @@ const searchGIFsEpic = (action$: ActionsObservable<ActionTypes>) =>
       const actions = [
         addSearchTerm(action.payload.q),
         setGIFs(data.data, action.type),
-        setPagination(action.type),
       ];
       return Observable.from(actions);
     }),
@@ -36,9 +32,9 @@ const searchGIFsEpic = (action$: ActionsObservable<ActionTypes>) =>
 const trendingGIFsEpic = (action$: ActionsObservable<ActionTypes>) =>
   action$.ofType<GIFTrendingAction>(TypeKeys.GIFS_TRENDING).mergeMap(action =>
     Observable.fromPromise(fetchTrendingGIFs(action.payload)).flatMap(data => {
+      console.log(data); //tslint:disable-line
       const actions = [
         setGIFs(data.data, action.type),
-        setPagination(action.type),
       ];
       return Observable.from(actions);
     }),
