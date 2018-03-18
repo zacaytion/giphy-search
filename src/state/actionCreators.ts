@@ -1,6 +1,6 @@
 import { Action } from 'history';
 import { ActionCreator } from 'redux';
-import { IGIFObject } from '../services';
+import { IGIFObject, IGIPHYResponse } from '../services';
 import * as types from './actionTypes';
 import TypeKeys from './typeKeys';
 
@@ -29,12 +29,13 @@ export const trendingGIFs: ActionCreator<types.GIFTrendingAction> = (offset: num
 
 export type TSetGIFs = typeof setGIFs;
 export const setGIFs: ActionCreator<types.GIFSetAction> = (
-  gifs: IGIFObject[],
+  response: IGIPHYResponse,
   gifType: types.GIFTypes,
 ) => ({
   payload: {
     gifType,
-    gifs,
+    gifs: response.data,
+    pagination: response.pagination,
   },
   type: TypeKeys.GIFS_SET,
 });

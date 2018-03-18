@@ -1,6 +1,6 @@
 /* tslint:disable:interface-name */
 import { Action } from 'redux';
-import { IGIFObject } from '../services';
+import { IGIFObject, IPaginationObject } from '../services';
 import TypeKeys from './typeKeys';
 
 // TODO: Potentially create action for canceling Searches
@@ -24,6 +24,7 @@ export interface GIFSetAction extends Action {
   payload: {
     gifType: GIFTypes;
     gifs: IGIFObject[];
+    pagination: IPaginationObject,
   };
 }
 

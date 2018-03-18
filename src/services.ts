@@ -11,7 +11,7 @@ export async function searchForGIFs(payload: { q: string; offset: number }) {
       offset,
       q,
     };
-    const response = await axios.get<IGIPHYResponse>('/gifs/search', {
+    const response = await axios.get<IGIPHYResponse>('/search', {
       params,
     });
     return response.data;
@@ -28,9 +28,10 @@ export async function fetchTrendingGIFs(payload: { offset: number }) {
       api_key: config.giphyAPIKey,
       offset,
     };
-    const response = await axios.get<IGIPHYResponse>('/gifs/trending', {
+    const response = await axios.get<IGIPHYResponse>('/trending', {
       params,
     });
+    console.log(response); //tslint:disable-line
     return response.data;
   } catch (e) {
     console.error(e); /* tslint:disable-line:no-console */
@@ -38,7 +39,7 @@ export async function fetchTrendingGIFs(payload: { offset: number }) {
   }
 }
 
-interface IGIPHYResponse {
+export interface IGIPHYResponse {
   data: IGIFObject[];
   pagination: IPaginationObject;
   meta: IMetaObject;
