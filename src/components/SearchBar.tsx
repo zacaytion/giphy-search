@@ -1,39 +1,77 @@
-/* tslint:disable:jsx-no-lambda */ // TODO: Research work around?
+/* tslint:disable:jsx-no-lambda jsx-no-multiline-js */
+import Downshift, { DownshiftProps, DownshiftState } from 'downshift';
+import { css } from 'emotion';
 import * as React from 'react';
-import { IGIFObject } from '../services';
-import { TSearchGIFs } from '../state/actionCreators';
-import { GIFList } from './GIF/List';
+import {
+  ArrowIcon,
+  ControllerButton,
+  Input,
+  Item,
+  Menu,
+  XIcon,
+} from '../styles';
 
-interface ISearchBarProps {
-  results: IGIFObject[];
-  searchTerm: string;
-  onTermChanged?: TSearchGIFs;
+interface ISearchBarProps extends DownshiftProps {
+  getItems: ( searchTerm: string | null ) => string[];
 }
 
-const NOOP = () => {}; /* tslint:disable-line:no-empty */
-
-export const SearchBar: React.SFC<ISearchBarProps> = ({
-  results,
-  searchTerm,
-  onTermChanged,
-}) => {
-  let gifs = null;
-  if (results.length === 0 && searchTerm.length === 0) {
-    gifs = [<li key="fetching-gifs"> Fetching fresh GIFs for you ⏳ </li>];
-  } else if (results.length === 0) {
-    gifs = [<li key="no-results"> No Results Found 🙁 </li>];
-  } else {
-    gifs = <GIFList results={results} />;
-  }
+export const SearchBar: React.SFC<ISearchBarProps> = ({ getItems, ...rest }) => {
   return (
-    <div>
-      <h2>Search for GIFs</h2>
-      <input
-        type="search"
-        placeholder="Funny"
-        onChange={e => (onTermChanged ? onTermChanged(e.target.value) : NOOP)}
-      />
-      <ul>{gifs}</ul>
-    </div>
+    <Downshift {...rest}>
+      {({
+        getInputProps,
+        getButtonProps,
+        getItemProps,
+        isOpen,
+        toggleMenu,
+        clearSelection,
+        selectedItem,
+        inputValue,
+        highlightedIndex,
+      }) => (
+        <div className={css({ width: 250, margin: 'auto' })}>
+          <div
+            className={css({ paddingRight: '1.75em', position: 'relative' })}
+          >
+            <Input
+              isOpen={isOpen}
+              {...getInputProps({
+                placeholder:   'Search for cool GIFs 😎',
+              })}
+            />
+            {selectedItem ? (
+              <ControllerButton
+                aria-label="clear selection"
+                className={css({ paddingTop: 4 })}
+                onClick={clearSelection}
+              >
+                <XIcon />
+              </ControllerButton>
+            ) : (
+              <ControllerButton {...getButtonProps()}>
+                <ArrowIcon isOpen={isOpen} />
+              </ControllerButton>
+            )}
+          </div>
+          {!isOpen ? null : (
+            <Menu>
+              {getItems(inputValue).map((item, index) => (
+                <Item
+                  key={item}
+                  {...getItemProps({
+                    index,
+                    isActive: highlightedIndex === index,
+                    isSelected: selectedItem === item,
+                    item,
+                  })}
+                >
+                  {item}
+                </Item>
+              ))}
+            </Menu>
+          )}
+        </div>
+      )}
+    </Downshift>
   );
 };

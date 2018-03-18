@@ -5,95 +5,21 @@ import matchSorter from 'match-sorter';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import { GIFList } from '../components/GIF';
+import { SearchBar } from '../components/SearchBar';
 import { IGIFObject } from '../services';
 import * as actions from '../state/actionCreators';
 import { IAppState, initialState } from '../state/initial';
 import { currentSearchSelector, gifsSelector, paginationSelector, previousSearchesSelector } from '../state/selectors';
 import TypeKeys from '../state/typeKeys';
-import {
-  ArrowIcon,
-  ControllerButton,
-  Input,
-  Item,
-  Menu,
-  XIcon,
-} from '../styles';
-
-// TODO: Split into two files
-
-interface IDownShiftHOCProps extends DownshiftProps {
-  getItems: ( searchTerm: string | null ) => string[];
-}
-
-function DownShiftHOC({ getItems, ...rest }: IDownShiftHOCProps ) {
-  return (
-    <Downshift {...rest}>
-      {({
-        getInputProps,
-        getButtonProps,
-        getItemProps,
-        isOpen,
-        toggleMenu,
-        clearSelection,
-        selectedItem,
-        inputValue,
-        highlightedIndex,
-      }) => (
-        <div className={css({ width: 250, margin: 'auto' })}>
-          <div
-            className={css({ paddingRight: '1.75em', position: 'relative' })}
-          >
-            <Input
-              isOpen={isOpen}
-              {...getInputProps({
-                placeholder:   'Search for cool GIFs 😎',
-              })}
-            />
-            {selectedItem ? (
-              <ControllerButton
-                aria-label="clear selection"
-                className={css({ paddingTop: 4 })}
-                onClick={clearSelection}
-              >
-                <XIcon />
-              </ControllerButton>
-            ) : (
-              <ControllerButton {...getButtonProps()}>
-                <ArrowIcon isOpen={isOpen} />
-              </ControllerButton>
-            )}
-          </div>
-          {!isOpen ? null : (
-            <Menu>
-              {getItems(inputValue).map((item, index) => (
-                <Item
-                  key={item}
-                  {...getItemProps({
-                    index,
-                    isActive: highlightedIndex === index,
-                    isSelected: selectedItem === item,
-                    item,
-                  })}
-                >
-                  {item}
-                </Item>
-              ))}
-            </Menu>
-          )}
-        </div>
-      )}
-    </Downshift>
-  );
-}
 
 type TSearchGIFsAction = typeof actions.searchGIFs;
 type TTrendingGIFsAction = typeof actions.trendingGIFs;
 type TAddSearchTermAction = typeof actions.addSearchTerm;
 type TRemoveSearchTermAction = typeof actions.removeSearchTerm;
-
-interface IAutoCompletePros {
+/* tslint:disable:no-console */
+interface IAutoCompleteProps {
   addSearchTerm: TAddSearchTermAction;
-  downShiftState: any;
   fetchSearchGIFs: TSearchGIFsAction;
   fetchTrendingGIFs: TTrendingGIFsAction;
   previousSearches: string[];
@@ -106,19 +32,32 @@ interface IAutoCompletePros {
   trendingOffset: number;
 
 }
-class AutoCompleteContainer extends React.Component<IAutoCompletePros, {}> {
+class AutoCompleteContainer extends React.Component<IAutoCompleteProps> {
   public handleChange = (selectedSearchTerm: string, downshiftState: DownshiftState) => {
     const { addSearchTerm, removeSearchTerm } = this.props;
-
+    console.log('handleChange');
+    console.log('selectedSearchTerm', selectedSearchTerm);
+    console.log('downshiftState', downshiftState);
     if (!selectedSearchTerm) {
       removeSearchTerm();
     } else {
       addSearchTerm(selectedSearchTerm);
     }
   }
+  public renderList(searchGIFs: IGIFObject[], trendingGIFs: IGIFObject[], searchTerm: string | null) {
+    const noGIFsYet = searchGIFs.length === 0 && trendingGIFs.length === 0;
+    const noSearch = !searchTerm === false;
+    if (noGIFsYet && noSearch) {
+      return <li key="fetching-gifs"> Fetching fresh GIFs for you ⏳ </li>;
+    } else if (noGIFsYet && !noSearch) {
+      return <li key="no-results"> No Results Found 🙁 </li>;
+    } else {
+      return <GIFList searchResults={searchGIFs} trendingResults={trendingGIFs} />;
+    }
+  }
   public getItems = (value: string | null) => {
     const { previousSearches } = this.props;
-
+    console.log('getItems', previousSearches, value);
     return value
       ? matchSorter(previousSearches, value, {
           keys: ['name'],
@@ -126,10 +65,12 @@ class AutoCompleteContainer extends React.Component<IAutoCompletePros, {}> {
       : previousSearches;
   }
   public handleStateChange = ( changes: any): any => {
-    console.log('handleStateChange', changes); /* tslint:disable-line:no-console */
+    const { addSearchTerm } = this.props;
+    console.log('handleState', changes.inputValue);
+    // addSearchTerm(changes.inputValue);
   }
   public render() {
-    const { selectedSearchTerm } = this.props;
+    const { selectedSearchTerm, searchGIFs, trendingGIFs} = this.props;
 
     return (
       <div
@@ -141,13 +82,16 @@ class AutoCompleteContainer extends React.Component<IAutoCompletePros, {}> {
           textAlign: 'center',
         })}
       >
-        <h2>Redux example</h2>
-        <DownShiftHOC
+        <h2>GIPHY Searcher</h2>
+        <SearchBar
           selectedItem={selectedSearchTerm}
           onStateChange={this.handleStateChange}
           onChange={this.handleChange}
           getItems={this.getItems}
         />
+        <ul>
+          {this.renderList(searchGIFs, trendingGIFs, selectedSearchTerm)}
+        </ul>
       </div>
     );
   }
