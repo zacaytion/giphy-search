@@ -2,7 +2,8 @@
   "compilerOptions": {
     "target": "es6",
     "jsx": "react",
-    "module": "commonjs",
+    "module": "es2015",
+    "moduleResolution": "node",
     "noEmitOnError": false,
     "strict": true,
     "strictNullChecks": true,
