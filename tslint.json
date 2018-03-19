@@ -9,7 +9,8 @@
     "rules": {
         "quotemark": [true, "single", "jsx-double", "avoid-escape"],
         "arrow-parens": [true, "ban-single-arg-parens"],
-        "jsx-boolean-value": false
+        "jsx-boolean-value": false,
+        "jsx-no-lambda": false
     },
     "rulesDirectory": []
 }
