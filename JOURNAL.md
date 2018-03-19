@@ -57,4 +57,4 @@ I'm too tired to write this now. Gonna update it tomorrow.
 
 ## Monday March 19
 
-Forgot about this over the weekend, Whoops!
+Forgot about this over the weekend, whoops!

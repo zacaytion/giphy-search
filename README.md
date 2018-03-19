@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-## Prerequisites
+### Prerequisites
 
 This app requires `node >= 8.9` and `yarn` to be installed globally.
 
