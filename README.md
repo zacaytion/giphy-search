@@ -33,13 +33,23 @@ For an (incomplete) log of my experience building this app, please see `JOURNAL.
 ## Helpful Links
 
 [GIPHY API Docs](https://developers.giphy.com/docs)
+
 [TypeScript Docs](https://www.typescriptlang.org/docs/home.html)
+
 [React Docs](https://reactjs.org/docs/hello-world.html)
+
 [React Router Docs](https://reacttraining.com/react-router/)
+
 [Redux Docs](https://redux.js.org/)
+
 [RxJS Docs](http://reactivex.io/rxjs/)
+
 [Redux-Observable Docs](https://redux-observable.js.org/)
+
 [Downshift Documentation](https://github.com/paypal/downshift)
+
 [Emotion Docs](https://emotion.sh/docs)
+
 [React-Redux-TypeScript-Guide](https://github.com/piotrwitek/react-redux-typescript-guide#react-types-cheatsheet)
+
 [Typesafe Container Components with Redux](https://spin.atomicobject.com/2017/04/20/typesafe-container-components/)
