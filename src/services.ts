@@ -9,6 +9,7 @@ export async function searchForGIFs(payload: { term: string; offset: number }) {
     const q = term.replace(/\s/g, '+'); /* replace spaces with `+` */
     const params = {
       api_key: config.giphyAPIKey,
+      limit: 50,
       offset,
       q,
     };
@@ -27,6 +28,7 @@ export async function fetchTrendingGIFs(payload: { offset: number }) {
     const { offset } = payload;
     const params = {
       api_key: config.giphyAPIKey,
+      limit: 50,
       offset,
     };
     const response = await axios.get<IGIPHYResponse>('/trending', {
