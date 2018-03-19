@@ -26,31 +26,17 @@ const searching = (
 ) => {
   switch (action.type) {
     case TypeKeys.SEARCH_ADD:
+      const { previous } = state;
+      const  { payload: { searchTerm } } = action;
+      // remove searchTerm term if it was already searched
+      const newPrevious = previous.filter(i => i !== searchTerm);
       return {
-        current: action.payload.searchTerm,
-        ...state,
-      };
-    case TypeKeys.SEARCH_REMOVE:
-      const { current, previous } = state;
-
-      if (!current) { return state; }
-      // remove current term if it was already searched
-      const newPrevious = previous.filter(i => i !== current);
-      return {
-        previous: [
-          current,
-          ...previous,
-        ],
-        ...state,
-      };
-    case TypeKeys.SEARCH_CLEAR:
-      return {
-        previous: [],
-        ...state,
-      };
+        current: searchTerm,
+        previous: [ searchTerm, ...newPrevious],
+        };
     default:
       return state;
-  }
+    }
 };
 
 const fetching = (
@@ -61,7 +47,6 @@ const fetching = (
     case TypeKeys.GIFS_SET:
       const { payload: { gifType } } = action;
       if (gifType === TypeKeys.GIFS_TRENDING) {
-        console.log("we're done fetching"); // tslint:disable-line
         return {
             searching: state.searching,
             trending: false,
@@ -73,7 +58,6 @@ const fetching = (
           };
         }
     case TypeKeys.GIFS_TRENDING:
-      console.log("we're fetching"); // tslint:disable-line
       return {
         searching: state.searching,
         trending: true,
@@ -104,7 +88,6 @@ const gifsReducer = (
 
 function setGIFs(state: IGIFSState, action: GIFSetAction) {
   const { gifType, gifs } = action.payload;
-
   /** Work around because object spread operator wasn't working with Enums as Object Keys
    * This: { [gifType]: [...state[gifType], ...gifs], ...state, }
    * Would return: { [GIFS_TRENDING]: [], [GIFS_SEARCH]: [] }
@@ -126,10 +109,17 @@ function setGIFs(state: IGIFSState, action: GIFSetAction) {
 
 function clearGIFs(state: IGIFSState, action: GIFSClearAction) {
   const { gifType } = action.payload;
-  return {
-    [gifType]: [],
-    ...state,
-  };
+  if (gifType === TypeKeys.GIFS_TRENDING) {
+    return {
+      [gifType]: [],
+      [TypeKeys.GIFS_SEARCH]: state[TypeKeys.GIFS_SEARCH],
+    };
+  } else {
+    return {
+      [gifType]: [],
+      [TypeKeys.GIFS_TRENDING]: state[TypeKeys.GIFS_TRENDING],
+    };
+  }
 }
 const paginationReducer = (
   state: IPaginationState = INITIAL_PAGINATION_STATE,
@@ -160,15 +150,19 @@ function setPagination(state: IPaginationState, action: GIFSetAction) {
   }
 }
 
-function clearPagination(
-  state: IPaginationState,
-  action: GIFSClearAction,
-) {
+function clearPagination(state: IPaginationState, action: GIFSClearAction) {
   const { gifType } = action.payload;
-  return {
-    [gifType]: 0,
-    ...state,
-  };
+  if (gifType === TypeKeys.GIFS_TRENDING) {
+    return {
+      [gifType]: 0,
+      [TypeKeys.GIFS_SEARCH]: state[TypeKeys.GIFS_SEARCH],
+    };
+  } else {
+    return {
+      [gifType]: 0,
+      [TypeKeys.GIFS_TRENDING]: state[TypeKeys.GIFS_TRENDING],
+    };
+  }
 }
 
 const error = (state: IErrorState = INITIAL_ERROR_STATE, action: ActionTypes) => {
