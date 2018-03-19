@@ -22,8 +22,8 @@ const searchGIFsEpic = (action$: ActionsObservable<ActionTypes>) =>
   action$.ofType<GIFSearchAction>(TypeKeys.GIFS_SEARCH).mergeMap(action =>
     Observable.fromPromise(searchForGIFs(action.payload)).flatMap(data => {
       const actions = [
-        addSearchTerm(action.payload.q),
-        setGIFs(data.data, action.type),
+        addSearchTerm(action.payload.term),
+        setGIFs(data, action.type),
       ];
       return Observable.from(actions);
     }),
@@ -32,9 +32,8 @@ const searchGIFsEpic = (action$: ActionsObservable<ActionTypes>) =>
 const trendingGIFsEpic = (action$: ActionsObservable<ActionTypes>) =>
   action$.ofType<GIFTrendingAction>(TypeKeys.GIFS_TRENDING).mergeMap(action =>
     Observable.fromPromise(fetchTrendingGIFs(action.payload)).flatMap(data => {
-      console.log(data); //tslint:disable-line
       const actions = [
-        setGIFs(data.data, action.type),
+        setGIFs(data, action.type),
       ];
       return Observable.from(actions);
     }),

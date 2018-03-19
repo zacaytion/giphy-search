@@ -7,7 +7,7 @@ import TypeKeys from './typeKeys';
 export interface GIFSearchAction extends Action {
   type: TypeKeys.GIFS_SEARCH;
   payload: {
-    q: string;
+    term: string;
     offset: number;
   };
 }
@@ -43,14 +43,6 @@ export interface SearchAddAction extends Action {
     searchTerm: string;
   };
 }
-
-export interface SearchRemoveAction extends Action {
-  type: TypeKeys.SEARCH_REMOVE;
-}
-export interface SearchClearAction extends Action {
-  type: TypeKeys.SEARCH_CLEAR;
-}
-
 export interface ErrorSetAction extends Action {
   type: TypeKeys.ERROR_SET;
   payload: {
@@ -62,7 +54,7 @@ export interface ErrorClearAction extends Action {
   type: TypeKeys.ERROR_CLEAR;
 }
 
-export type SearchActions = SearchAddAction | SearchRemoveAction | SearchClearAction;
+export type SearchActions = SearchAddAction;
 
 export interface OtherAction extends Action {
   type: TypeKeys.OTHER_ACTION;
@@ -80,5 +72,5 @@ export type ErrorActions = ErrorSetAction | ErrorClearAction;
 export type ActionTypes =
   | GIFActions
   | ErrorActions
-  | SearchActions
+  | SearchAddAction
   | OtherAction;
