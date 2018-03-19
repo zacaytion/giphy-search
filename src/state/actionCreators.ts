@@ -9,11 +9,10 @@ export const searchGIFs: ActionCreator<types.GIFSearchAction> = (
   term: string,
   offset: number = 0,
 ) => {
-  const q = term.replace(/\s/g, '+'); /* replace spaces with `+` */
   return {
     payload: {
       offset,
-      q,
+      term,
     },
     type: TypeKeys.GIFS_SEARCH,
   };
@@ -54,16 +53,6 @@ export const addSearchTerm: ActionCreator<types.SearchAddAction> = (searchTerm: 
     searchTerm,
   },
   type: TypeKeys.SEARCH_ADD,
-});
-
-export type TRemoveSearchTerm = typeof removeSearchTerm;
-export const removeSearchTerm: ActionCreator<types.SearchRemoveAction> = () => ({
-  type: TypeKeys.SEARCH_REMOVE,
-});
-
-export type TClearSearch = typeof clearSearch;
-export const clearSearch: ActionCreator<types.SearchClearAction> = () => ({
-  type: TypeKeys.SEARCH_CLEAR,
 });
 
 export type TSetError = typeof setError;

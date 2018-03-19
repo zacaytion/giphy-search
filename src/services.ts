@@ -3,9 +3,10 @@ import config from './config';
 
 axios.defaults.baseURL = config.giphyBaseUrl;
 
-export async function searchForGIFs(payload: { q: string; offset: number }) {
+export async function searchForGIFs(payload: { term: string; offset: number }) {
   try {
-    const { q, offset } = payload;
+    const { term, offset } = payload;
+    const q = term.replace(/\s/g, '+'); /* replace spaces with `+` */
     const params = {
       api_key: config.giphyAPIKey,
       offset,
@@ -31,7 +32,6 @@ export async function fetchTrendingGIFs(payload: { offset: number }) {
     const response = await axios.get<IGIPHYResponse>('/trending', {
       params,
     });
-    console.log(response); //tslint:disable-line
     return response.data;
   } catch (e) {
     console.error(e); /* tslint:disable-line:no-console */
