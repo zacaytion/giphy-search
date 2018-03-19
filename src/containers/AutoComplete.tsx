@@ -22,20 +22,17 @@ import TypeKeys from '../state/typeKeys';
 
 type TSearchGIFsAction = typeof actions.searchGIFs;
 type TTrendingGIFsAction = typeof actions.trendingGIFs;
-type TAddSearchTermAction = typeof actions.addSearchTerm;
-type TRemoveSearchTermAction = typeof actions.removeSearchTerm;
+type TClearGIFs = typeof actions.clearGIFs;
 /* tslint:disable:no-console */
 interface IAutoCompleteProps {
-  addSearchTerm: TAddSearchTermAction;
+  clearSearchGifs: TClearGIFs;
   fetchSearchGIFs: TSearchGIFsAction;
   fetchTrendingGIFs: TTrendingGIFsAction;
   previousSearches: string[];
-  removeSearchTerm: TRemoveSearchTermAction;
   searchGIFs: IGIFObject[];
   searchIsFetching: boolean;
   searchOffset: number;
-  searchTerm: string;
-  selectedSearchTerm: string;
+  selectedSearchTerm: string | null;
   trendingGIFs: IGIFObject[];
   trendingIsFetching: boolean;
   trendingOffset: number;
@@ -43,30 +40,28 @@ interface IAutoCompleteProps {
 }
 class AutoCompleteContainer extends React.Component<IAutoCompleteProps> {
   public handleChange = (selectedSearchTerm: string, downshiftState: DownshiftState) => {
-    const { addSearchTerm, removeSearchTerm } = this.props;
-    console.log('handleChange');
-    console.log('selectedSearchTerm', selectedSearchTerm);
-    console.log('downshiftState', downshiftState);
+    const { clearSearchGifs} = this.props;
     if (!selectedSearchTerm) {
-      removeSearchTerm();
-    } else {
-      addSearchTerm(selectedSearchTerm);
+      clearSearchGifs();
     }
   }
 
+  public handleStateChange = ( changes: any): any => {
+    const { fetchSearchGIFs } = this.props;
+    const { selectedItem } = changes;
+    if (!!selectedItem) {
+      fetchSearchGIFs(selectedItem);
+    }
+
+  }
   public getItems = (value: string | null) => {
     const { previousSearches } = this.props;
-    console.log('getItems', previousSearches, value);
-    return value
-      ? matchSorter(previousSearches, value, {
-          keys: ['name'],
-        })
+    const items = value
+      ? matchSorter(previousSearches, value)
       : previousSearches;
-  }
-  public handleStateChange = ( changes: any): any => {
-    const { addSearchTerm } = this.props;
-    console.log('handleState', changes.inputValue);
-    // addSearchTerm(changes.inputValue);
+    return items.length !== 0
+      ? items
+      : [value];
   }
 
   public scrollFunction = (): any => {
@@ -88,15 +83,17 @@ class AutoCompleteContainer extends React.Component<IAutoCompleteProps> {
     if (!selectedSearchTerm && !emptyTrendingGifs && !trendingIsFetching) {
       return fetchTrendingGIFs(trendingOffset);
     } else if (!!selectedSearchTerm && !emptySearchGifs && !searchIsFetching) {
-      return fetchSearchGIFs(searchOffset);
+      return fetchSearchGIFs(selectedSearchTerm, searchOffset);
     } else {
-      return () => ({}); // NOOP
+      return () => (console.log('NOOP')); // NOOP
     }
   }
 
   public gifsToDisplay(): any {
     const { selectedSearchTerm, searchGIFs, trendingGIFs } = this.props;
     if (!selectedSearchTerm) {
+      return trendingGIFs;
+    } else if (searchGIFs.length === 0 && trendingGIFs.length !== 0) {
       return trendingGIFs;
     } else {
       return searchGIFs;
@@ -154,7 +151,6 @@ const mapStateToProps = (state: IAppState) => {
     searchGIFs: searchGIFsSelector(state),
     searchIsFetching: isFetchingSearchingSelector(state),
     searchOffset: searchPaginationSelector(state),
-    searchTerm: currentSearchSelector(state),
     selectedSearchTerm: currentSearchSelector(state),
     trendingGIFs: trendingGIFsSelector(state),
     trendingIsFetching: isFetchingTrendingSelector(state),
@@ -164,17 +160,14 @@ const mapStateToProps = (state: IAppState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<IAppState>) => {
   return {
-    addSearchTerm: (term: string) => {
-      dispatch(actions.addSearchTerm(term));
+    clearSearchGifs: () => {
+      dispatch(actions.clearGIFs(TypeKeys.GIFS_SEARCH));
     },
     fetchSearchGIFs: (term: string, offset: number = 0) => {
       dispatch(actions.searchGIFs(term, offset));
     },
     fetchTrendingGIFs: (offset: number = 0) => {
       dispatch(actions.trendingGIFs(offset));
-    },
-    removeSearchTerm: () => {
-      dispatch(actions.removeSearchTerm());
     },
   };
 };
