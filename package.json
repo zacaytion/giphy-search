@@ -6,7 +6,8 @@
   "author": "Zach Harris <z@zharr.is>",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --color",
+    "start": "webpack-dev-server --color --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.+(ts|tsx)\" --write",
     "fix:tslint": "tslint --fix --project .",
@@ -83,9 +84,11 @@
     "tslint-react": "^3.5.1",
     "typedoc": "^0.11.1",
     "typescript": "^2.7.2",
+    "uglifyjs-webpack-plugin": "^1.2.4",
     "webpack": "^3.0.0",
     "webpack-cli": "^1.0.0",
-    "webpack-dev-server": "^2.0.0"
+    "webpack-dev-server": "^2.0.0",
+    "webpack-merge": "^4.1.2"
   },
   "dependencies": {},
   "prettier": {

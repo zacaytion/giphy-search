@@ -10,22 +10,6 @@ const tslintrc = require(path.resolve(__dirname, './tslint.json'));
 module.exports =  {
   context: path.resolve(__dirname, "./src"),
   entry: ["babel-polyfill", path.resolve(__dirname, "./src/index.tsx")],
-  devtool: "cheap-module-eval-source-map",
-  devServer: {
-    hot: true,
-    port: 3000,
-    compress: true,
-    overlay: true,
-    proxy: {
-      "/giphy": {
-        target: "http://api.giphy.com/v1/gifs",
-        pathRewrite: {
-          '^/giphy': ''
-        },
-        "changeOrigin": true,
-      }
-    }
-  },
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "[name].js",
