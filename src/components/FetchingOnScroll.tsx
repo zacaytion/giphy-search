@@ -2,13 +2,21 @@ import * as React from 'react';
 import { IGIFObject } from '../services';
 
 interface IFetchOnScrollProps {
-  scrollFunction: any; // TODO: Add real type def
+  scrollFunction: any;
   gifs: IGIFObject[];
 }
 
-export function FetchingOnScroll(Component: any) { // TODO: Add real type def
+/**
+ * Watches for the window to scroll to the bottom of the list
+ * Calls scroll function when botton is receached.
+ *
+ * @export
+ * @param {*} Component
+ * @returns  Component
+ */
+export function FetchingOnScroll(Component: any) {
   class FetchOnScroll extends React.Component<IFetchOnScrollProps> {
-    constructor(props: any) { // TODO: Add real type def
+    constructor(props: any) {
       super(props);
       this.onScroll = this.onScroll.bind(this);
     }

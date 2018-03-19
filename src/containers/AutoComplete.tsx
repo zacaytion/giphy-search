@@ -35,9 +35,21 @@ interface IAutoCompleteProps {
   trendingGIFs: IGIFObject[];
   trendingIsFetching: boolean;
   trendingOffset: number;
-
 }
+
+/**
+ * Connected Component for controlling state and managing props to send to SearchBar
+ *
+ * @class AutoCompleteContainer
+ * @extends {React.Component<IAutoCompleteProps>}
+ */
 class AutoCompleteContainer extends React.Component<IAutoCompleteProps> {
+
+  /**
+   * Called when the user selects an item and when the currently selected item changes
+   *
+   * @memberof AutoCompleteContainer
+   */
   public handleChange = (selectedSearchTerm: string, downshiftState: DownshiftState) => {
     const { clearSearchGifs} = this.props;
     if (!selectedSearchTerm) {
@@ -45,14 +57,25 @@ class AutoCompleteContainer extends React.Component<IAutoCompleteProps> {
     }
   }
 
+  /**
+   * Called when the internal state of Downshift is changed
+   *
+   * @memberof AutoCompleteContainer
+   */
   public handleStateChange = ( changes: any): any => {
     const { fetchSearchGIFs } = this.props;
     const { selectedItem } = changes;
     if (!!selectedItem) {
       fetchSearchGIFs(selectedItem);
     }
-
   }
+
+  /**
+   * Compares the input in the search bar with the previous searched results
+   * If there is not a match, it places the input in the drop down.
+   *
+   * @memberof AutoCompleteContainer
+   */
   public getItems = (value: string | null) => {
     const { previousSearches } = this.props;
     const items = value
@@ -63,6 +86,12 @@ class AutoCompleteContainer extends React.Component<IAutoCompleteProps> {
       : [value];
   }
 
+  /**
+   * Passed down to FetchingOnScroll
+   * Used to determine whether to fetch trending or searching gifs
+   *
+   * @memberof AutoCompleteContainer
+   */
   public scrollFunction = (): any => {
     const {
       searchIsFetching,
@@ -88,6 +117,12 @@ class AutoCompleteContainer extends React.Component<IAutoCompleteProps> {
     }
   }
 
+  /**
+   * Logic for determining which type of gifs to show based on input and currently stored gifs
+   *
+   * @returns {*}
+   * @memberof AutoCompleteContainer
+   */
   public gifsToDisplay(): any {
     const { selectedSearchTerm, searchGIFs, trendingGIFs } = this.props;
     if (!selectedSearchTerm) {
@@ -99,6 +134,12 @@ class AutoCompleteContainer extends React.Component<IAutoCompleteProps> {
     }
   }
 
+  /**
+   * Passed into IsLoading Wrapper.
+   *
+   * @returns {boolean}
+   * @memberof AutoCompleteContainer
+   */
   public isLoading(): boolean  {
     const { selectedSearchTerm, searchGIFs, trendingGIFs, searchIsFetching,  trendingIsFetching } = this.props;
     if (!selectedSearchTerm && trendingIsFetching ) {

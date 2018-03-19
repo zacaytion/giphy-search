@@ -16,6 +16,11 @@ interface ISearchBarProps extends DownshiftProps {
 
 }
 
+/**
+ * Wrapper Component for Downshift
+ * Downshift controls the user interaction and state, using render props to display components
+ * @param ISearchBarProps
+ */
 export const SearchBar: React.SFC<ISearchBarProps> = ({ getItems, ...rest }) => {
   return (
     <Downshift {...rest}>

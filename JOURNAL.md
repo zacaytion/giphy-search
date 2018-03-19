@@ -54,4 +54,7 @@ I like learning new things, so I decided to make this challenge more challenging
 ## Thursday March 15
 
 I'm too tired to write this now. Gonna update it tomorrow.
-<!-- TODO: Write Journal Entry for Thursday -->
+
+## Monday March 19
+
+Forgot about this over the weekend, Whoops!

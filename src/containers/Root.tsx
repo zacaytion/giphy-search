@@ -25,15 +25,34 @@ interface IStateProps {
   error: Error | null;
 }
 
+/**
+ * Root Component
+ *
+ *
+ * @class RootComponent
+ * @extends {React.Component<IProps, IStateProps>}
+ */
 class RootComponent extends React.Component<IProps, IStateProps> {
   public state = {
     error: null,
   };
 
+  /**
+   * When the Root component mounts, fetch trending gifs
+   *
+   * @memberof RootComponent
+   */
   public componentWillMount() {
     const { store } = this.props;
     store.dispatch(trendingGIFs());
   }
+
+  /**
+   * If for some reason an error appears, pass it to redux
+   *
+   * @param {Error} error
+   * @memberof RootComponent
+   */
   public componentDidCatch(error: Error) {
     this.setState({ error });
   }
