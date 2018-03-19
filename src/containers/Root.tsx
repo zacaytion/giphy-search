@@ -10,6 +10,12 @@ import { About, NotFound } from '../components';
 import { Home } from '../containers/Home';
 import { trendingGIFs, TTrendingGIFs } from '../state/actionCreators';
 import { IAppState } from '../state/initial';
+import styled from 'react-emotion';
+import { Header } from '../components/Header';
+const Div = styled.div({
+  margin: '0px auto',
+  width: '100%',
+});
 
 interface IProps {
   store: Store<IAppState>;
@@ -45,15 +51,20 @@ class RootComponent extends React.Component<IProps, IStateProps> {
     }
 
     return (
+    <Div>
       <Provider store={store} key={Math.random()}>
         <ConnectedRouter history={history} key={Math.random()}>
+       <div>
+        <Header />
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />
             <Route component={NotFound} />
           </Switch>
+          </div>
         </ConnectedRouter>
       </Provider>
+    </Div>
     );
   }
 }
