@@ -13,6 +13,7 @@ import {
 
 interface ISearchBarProps extends DownshiftProps {
   getItems: ( searchTerm: string | null ) => string[];
+
 }
 
 export const SearchBar: React.SFC<ISearchBarProps> = ({ getItems, ...rest }) => {
@@ -29,20 +30,20 @@ export const SearchBar: React.SFC<ISearchBarProps> = ({ getItems, ...rest }) => 
         inputValue,
         highlightedIndex,
       }) => (
-        <div className={css({ width: 250, margin: 'auto' })}>
+        <div className={css({ width: '75%', margin: 'auto' })}>
           <div
             className={css({ paddingRight: '1.75em', position: 'relative' })}
           >
             <Input
               isOpen={isOpen}
               {...getInputProps({
-                placeholder:   'Search for cool GIFs 😎',
+                placeholder: 'Search for cool GIFs 😎',
               })}
             />
             {selectedItem ? (
               <ControllerButton
                 aria-label="clear selection"
-                className={css({ paddingTop: 4 })}
+                className={css({ paddingTop: 1 })}
                 onClick={clearSelection}
               >
                 <XIcon />
@@ -53,6 +54,7 @@ export const SearchBar: React.SFC<ISearchBarProps> = ({ getItems, ...rest }) => 
               </ControllerButton>
             )}
           </div>
+
           {!isOpen ? null : (
             <Menu>
               {getItems(inputValue).map((item, index) => (

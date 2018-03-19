@@ -11,10 +11,10 @@ interface IGIFListProps {
 }
 
 const Div = styled.div({
-  columnGap: '1.5em',
-  fontSize: '.85em',
-  margin: '1.5em 0',
-  padding: '0',
+  display: 'flex',
+  flexWrap: 'wrap',
+  justifyContent: 'space-between',
+  marginTop: '20px',
 });
 
 const List: React.SFC<IGIFListProps> = ({ results }) =>  {
