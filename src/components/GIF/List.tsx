@@ -1,4 +1,5 @@
 import * as React from 'react';
+import styled from 'react-emotion';
 import { IGIFObject } from '../../services';
 import { FetchingOnScroll } from '../FetchingOnScroll';
 import { IsLoading } from '../IsLoading';
@@ -9,11 +10,18 @@ interface IGIFListProps {
 
 }
 
+const Div = styled.div({
+  columnGap: '1.5em',
+  fontSize: '.85em',
+  margin: '1.5em 0',
+  padding: '0',
+});
+
 const List: React.SFC<IGIFListProps> = ({ results }) =>  {
     return (
-    <div>
+    <Div>
       {results.map(gif => (<GIFItem key={gif.id} {...gif} />))}
-    </div>
+    </Div>
   );
 };
 
